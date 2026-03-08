@@ -1,6 +1,6 @@
 # Move Auditor Skills
 
-> The ultimate Claude Code skill for Sui Move smart contract security auditing — 120 attack vectors, 6 parallel agents, DeFi protocol checklists, and adversarial reasoning.
+> The ultimate Claude Code skill for Sui Move smart contract security auditing — 143 attack vectors, 7 parallel agents, DeFi protocol checklists, and adversarial reasoning.
 
 Built in the style of [pashov/skills](https://github.com/pashov/skills) (Solidity) but rebuilt from scratch for **Sui Move**. Aggregates knowledge from 10+ open-source audit, development, and security repositories.
 
@@ -19,7 +19,7 @@ The same proven parallelized architecture as pashov/skills — adapted for Sui's
 3. **Spawn** — launch 4–6 agents in parallel (vector scan, adversarial reasoning, protocol analysis)
 4. **Report** — merge, deduplicate by root cause, sort by confidence, format
 
-### 120 Attack Vectors (4 reference files)
+### 143 Attack Vectors (5 reference files)
 
 | File | Vectors | Focus Areas |
 | --- | --- | --- |
@@ -27,12 +27,13 @@ The same proven parallelized architecture as pashov/skills — adapted for Sui's
 | [attack-vectors-2](move-auditor/references/attack-vectors/attack-vectors-2.md) | 31–60 | Shared object races, PTB flash loans, hot potato pattern, MEV, DoS via contention, pause mechanisms, clock/time, upgrade security, state migration, reinitialization, gas exhaustion, transaction ordering |
 | [attack-vectors-3](move-auditor/references/attack-vectors/attack-vectors-3.md) | 61–90 | Bitwise overflow (Cetus-style), precision loss, rounding direction, first-depositor inflation, coin/balance operations, vector limits, dynamic field orphaning, fee bypass, dust attacks, BCS safety |
 | [attack-vectors-4](move-auditor/references/attack-vectors/attack-vectors-4.md) | 91–120 | Oracle manipulation (staleness, confidence, spoofing), flash loan price manipulation, staking reward gaming, liquidation economics, dependency risks, ZK proof replay, TEE attestation, agent security, package upgrade authority |
+| [attack-vectors-5](move-auditor/references/attack-vectors/attack-vectors-5.md) | 121–143 | Generic type confusion, entry visibility bypass, event spoofing, flash loan receipt pool binding, dependency version contagion, denylist epoch gap, constant definition errors, cast truncation, wrapping attacks, accumulator ordering — sourced from 200+ real Move audits |
 
 ### 3 Specialized Agent Types
 
 | Agent | Mode | Model | Approach |
 | --- | --- | --- | --- |
-| Vector Scan (x4) | Default + Deep | Sonnet | Systematic triage of ~30 vectors each against full codebase |
+| Vector Scan (x5) | Default + Deep | Sonnet | Systematic triage of ~29 vectors each against full codebase |
 | Adversarial Reasoning | Deep only | Opus | Free-form exploit hunting with Feynman questioning, state inconsistency analysis, invariant hunting |
 | Sui Protocol | Deep only | Opus | Domain-specific checklists for lending, AMM, vaults, staking, bridges, governance, NFT/Kiosk, package upgrades |
 
@@ -78,13 +79,13 @@ cp -r move-auditor/ ~/.cursor/skills/move-auditor
 
 | Skill | Description |
 | --- | --- |
-| [move-auditor](move-auditor/) | 120-vector security audit with 4–6 parallel agents, DeFi protocol checklists, and adversarial reasoning |
+| [move-auditor](move-auditor/) | 143-vector security audit with 5–7 parallel agents, DeFi protocol checklists, and adversarial reasoning |
 
 ---
 
 ## What's Included
 
-### 120 Attack Vectors (4 reference files)
+### 143 Attack Vectors (5 reference files)
 
 Organized by attack surface:
 
@@ -95,6 +96,8 @@ Organized by attack surface:
 **Arithmetic, Tokens & State Management (V61–V90):** Bitwise overflow (Cetus $223M exploit pattern), custom math library bugs, division-before-multiplication, integer underflow, unsafe casting, rounding direction exploitation, first-depositor vault inflation, round-trip profit, coin split/join accounting, Balance vs Coin confusion, vector 1000-entry limit, fee bypass, dust locking, coupled state reset, supply invariant violation.
 
 **Oracle, DeFi & Platform-Level (V91–V120):** Stale oracle prices, confidence interval not validated, fake oracle objects, single oracle dependency, flash loan price manipulation, vault share inflation, staking reward index bugs, flash stake capture, liquidation incentive gaps, self-liquidation profit, interest during pause, bad debt not socialized, unaudited dependencies, ZK proof replay (missing nullifier), TEE attestation bypass, agent capability abuse, package upgrade authority as single point of failure.
+
+**Advanced Sui Patterns, Type Safety & Real-World Exploits (V121–V143):** Generic type parameter not validated (#1 critical finding across 200+ Move audits), `entry` modifier overriding `public(package)` visibility, caller address as spoofable parameter, phantom type role bypass, event spoofing, object wrapping/unwrapping attacks, table key collision DoS, timestamp unit confusion (ms vs seconds), hot potato state reset (nested flash loan), missing object/UID validation, unconditional `balance::destroy_zero`, flash loan receipt pool binding (Cetus/Dexlyn pattern), denylist epoch gap for regulated coins, dependency upgrade version contagion, return values in wrong order (KriyaDEX), self-referential always-true checks, constant definition errors (Bluefin MAX_U64), cast truncation, double scaling/unit mixing, missing fee withdrawal, circular function calls, stale state from hidden external mutations, accumulator update ordering (Thala Labs).
 
 ### Protocol Checklists (75 items across 8 domains)
 
@@ -132,6 +135,8 @@ This skill aggregates knowledge from the following open-source repositories. We 
 | [nicholasgasior/contracts-sui](https://github.com/nicholasgasior/contracts-sui) | OpenZeppelin | Two-step transfer wrapper pattern, delayed transfer wrapper with timelock, transfer policy enforcement — security patterns for sensitive capability transfer |
 | [nicholasgasior/move-code-quality-skill](https://github.com/nicholasgasior/move-code-quality-skill) | Move Code Quality | 50+ code quality rules across 11 categories (Move 2024 Edition): package manifest, imports, structs, functions, parameter ordering, Option/Loop macros, testing patterns |
 | [nicholasgasior/Move-Audit-Resources](https://github.com/nicholasgasior/Move-Audit-Resources) | Move Audit Resources | Curated audit tools (MoveBit, Sui Fuzzer, Move Prover, Sui Move Analyzer), security company references (OtterSec, Zellic, MoveBit, SharkTeam), research links (Zellic "Billion Dollar Move Bug", SharkTeam security analysis) |
+
+| [pantheraudits/move-auditor](https://github.com/pantheraudits/move-auditor) | Panther Audits | 23 advanced attack vectors from 1141 real findings across 200+ Move audits: generic type confusion (#1 critical pattern), entry visibility bypass, flash loan receipt pool binding, dependency version contagion, denylist epoch gap, constant definition errors, cast truncation, double scaling, accumulator ordering — with real-world references (Navi, Cetus, Bluefin, Econia, KriyaDEX, Thala Labs, ThalaSwapV2, Creek Finance, Dexlyn, SuiPad, Hop Aggregator) |
 
 ### Methodology & Agents
 
