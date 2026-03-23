@@ -7,7 +7,7 @@ Save the report to `assets/findings/{project-name}-move-ai-audit-report-{timesta
 ## Output Format
 
 ````
-# 🔐 Security Review — <ModuleName or repo name>
+# Security Review — <ModuleName or repo name>
 
 ---
 
@@ -16,10 +16,10 @@ Save the report to `assets/findings/{project-name}-move-ai-audit-report-{timesta
 |                                  |                                                        |
 | -------------------------------- | ------------------------------------------------------ |
 | **Mode**                         | ALL / default / filename                               |
-| **Framework**                    | Sui Move / Aptos Move                                  |
+| **Framework**                    | Sui Move                                               |
 | **Files reviewed**               | `file1.move` · `file2.move`<br>`file3.move`            | <!-- list every file, 3 per line -->
-| **Attack vectors checked**       | 120 (across N agents)                                  |
-| **Agents deployed**              | N vector-scan + adversarial + protocol                 |
+| **Attack vectors checked**       | N (across vector-scan agent)                           |
+| **Agents deployed**              | N hacking agents [+ sui-protocol]                      |
 | **Confidence threshold (1-100)** | N                                                      |
 
 ---
@@ -56,7 +56,20 @@ Save the report to `assets/findings/{project-name}-move-ai-audit-report-{timesta
 ```
 ---
 
-< ... all findings >
+< ... all above-threshold findings >
+
+---
+
+[75] **3. <Title>**
+
+`module::function_name` · Confidence: 75
+
+**Description**
+<The vulnerable code pattern and why it is exploitable, in 1 short sentence>
+
+---
+
+< ... all below-threshold findings (description only, no Fix block) >
 
 ---
 
@@ -66,13 +79,20 @@ Findings List
 |---|---|---|
 | 1 | [95] | <title> |
 | 2 | [82] | <title> |
-| | | **Below Confidence Threshold** |
 | 3 | [75] | <title> |
-| 4 | [60] | <title> |
 
 ---
 
-> ⚠️ This review was performed by an AI assistant. AI analysis can never verify the complete absence of vulnerabilities and no guarantee of security is given. Team security reviews, formal verification with Move Prover, bug bounty programs, and on-chain monitoring are strongly recommended.
+## Leads
+
+_Vulnerability trails with concrete code smells where the full exploit path could not be completed in one analysis pass. These are not false positives — they are high-signal leads for manual review. Not scored._
+
+- **<Title>** — `module::function` — Code smells: <missing guard, unsafe arithmetic, etc.> — <1-2 sentence description of the trail and what remains unverified>
+- **<Title>** — `module::function` — Code smells: <...> — <1-2 sentence description>
+
+---
+
+> This review was performed by an AI assistant. AI analysis can never verify the complete absence of vulnerabilities and no guarantee of security is given. Team security reviews, formal verification with Move Prover, bug bounty programs, and on-chain monitoring are strongly recommended.
 
 ````
 
