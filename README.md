@@ -2,6 +2,8 @@
 
 > AI-powered Sui Move security skills for auditing packages that live in an object-centric runtime, not an EVM account model.
 
+Built on the v2 packaging and workflow model from [pashov/skills](https://github.com/pashov/skills), then adapted for Move and Sui-specific security work.
+
 **Supported AI Platforms:**
 [![Claude Code](https://img.shields.io/badge/Claude_Code-F5E6D0?style=for-the-badge&logo=anthropic&logoColor=1a1a1a)](https://claude.ai/download)
 [![Cursor](https://img.shields.io/badge/Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white)](https://cursor.com)

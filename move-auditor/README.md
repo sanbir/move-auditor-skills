@@ -2,6 +2,8 @@
 
 A security agent for **Sui Move** packages.
 
+Attribution: this fork keeps the v2 packaging and audit workflow lineage from [pashov/skills](https://github.com/pashov/skills), adapted for Sui Move.
+
 Built for:
 
 - **Move developers** who want fast feedback before merging changes
